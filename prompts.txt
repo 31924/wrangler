@@ -1,0 +1,6 @@
+
+Prompt 1: Implement ByteSize parser in Java to convert KB/MB/GB to bytes.
+Prompt 2: Implement TimeDuration parser in Java to convert ms/s/m to milliseconds.
+Prompt 3: Add ANTLR rules for BYTE_SIZE and TIME_DURATION tokens.
+Prompt 4: Create aggregate-stats directive that sums size and time from rows.
+Prompt 5: Write JUnit tests for aggregate-stats directive.
