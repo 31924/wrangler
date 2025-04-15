@@ -13,29 +13,33 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-package io.cdap.wrangler.api.parser;
 
-public class ByteSize extends Token {
-  private final long bytes;
+package io.cdap.wrangler.api;
 
-  public ByteSize(String value) {
-    super(value);
-    this.bytes = parseBytes(value);
-  }
+public class ByteSize {
+    private long bytes;
 
-  private long parseBytes(String value) {
-    value = value.trim().toUpperCase();
-    if (value.endsWith("KB")) {
-      return (long) (Double.parseDouble(value.replace("KB", "")) * 1024);
-    } else if (value.endsWith("MB")) {
-      return (long) (Double.parseDouble(value.replace("MB", "")) * 1024 * 1024);
-    } else if (value.endsWith("GB")) {
-      return (long) (Double.parseDouble(value.replace("GB", "")) * 1024 * 1024 * 1024);
+    public ByteSize(String value) {
+        value = value.toUpperCase();
+        if (value.endsWith("KB")) {
+            bytes = Long.parseLong(value.replace("KB", "")) * 1024;
+        } else if (value.endsWith("MB")) {
+            bytes = Long.parseLong(value.replace("MB", "")) * 1024 * 1024;
+        } else if (value.endsWith("GB")) {
+            bytes = Long.parseLong(value.replace("GB", "")) * 1024 * 1024 * 1024;
+        } else if (value.endsWith("TB")) {
+            bytes = Long.parseLong(value.replace("TB", "")) * 1024L * 1024 * 1024 * 1024;
+        } else if (value.endsWith("B")) {
+            bytes = Long.parseLong(value.replace("B", ""));
+        } else {
+            throw new IllegalArgumentException("Invalid byte size format: " + value);
+        }
     }
-    return Long.parseLong(value);
-  }
 
-  public long getBytes() {
-    return bytes;
+    public long getBytes() {
+        return bytes;
+    }
+}
+
   }
 }
