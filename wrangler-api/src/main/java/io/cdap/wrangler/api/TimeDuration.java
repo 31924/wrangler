@@ -13,29 +13,30 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-package io.cdap.wrangler.api.parser;
 
-public class TimeDuration extends Token {
-  private final long milliseconds;
+package io.cdap.wrangler.api;
 
-  public TimeDuration(String value) {
-    super(value);
-    this.milliseconds = parseMilliseconds(value);
-  }
+public class TimeDuration {
+    private long milliseconds;
 
-  private long parseMilliseconds(String value) {
-    value = value.trim().toLowerCase();
-    if (value.endsWith("ms")) {
-      return (long) Double.parseDouble(value.replace("ms", ""));
-    } else if (value.endsWith("s")) {
-      return (long) (Double.parseDouble(value.replace("s", "")) * 1000);
-    } else if (value.endsWith("m")) {
-      return (long) (Double.parseDouble(value.replace("m", "")) * 60 * 1000);
+    public TimeDuration(String value) {
+        value = value.toLowerCase();
+        if (value.endsWith("ms")) {
+            milliseconds = Long.parseLong(value.replace("ms", ""));
+        } else if (value.endsWith("s")) {
+            milliseconds = Long.parseLong(value.replace("s", "")) * 1000;
+        } else if (value.endsWith("m")) {
+            milliseconds = Long.parseLong(value.replace("m", "")) * 60 * 1000;
+        } else if (value.endsWith("h")) {
+            milliseconds = Long.parseLong(value.replace("h", "")) * 60 * 60 * 1000;
+        } else if (value.endsWith("d")) {
+            milliseconds = Long.parseLong(value.replace("d", "")) * 24 * 60 * 60 * 1000;
+        } else {
+            throw new IllegalArgumentException("Invalid time duration format: " + value);
+        }
     }
-    return Long.parseLong(value);
-  }
 
-  public long getMilliseconds() {
-    return milliseconds;
-  }
+    public long getMilliseconds() {
+        return milliseconds;
+    }
 }
